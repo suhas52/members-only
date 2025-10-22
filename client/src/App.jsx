@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react'
-import {UnSignedNavbar, Signed} from './components/navbar'
+import Navbar from './components/navbar'
 import { Routes, Route } from 'react-router-dom'
 import Home from './components/home'
 import SignUp from './components/sign-up'
@@ -10,7 +10,8 @@ export const UserContext = createContext()
 function App() {
   
   const [user, setUser] = useState(null);
-  
+  const [loading, setLoading] = useState(true);
+
   
   useEffect(() => {
     fetch('http://localhost:3000/api/me', {
@@ -18,20 +19,21 @@ function App() {
       credentials: "include"
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
-      
-      .catch(() => setUser(null))
+      .then((data) => setUser(data))
+      .finally(() => setLoading(false));
   }, [])
   
   return (
+    <UserContext.Provider value={{ user, loading}}>
     <>
-    <UnSignedNavbar />
+    <Navbar />
     <Routes>
-    <Route path="/" element={<Home user={user}/>} />
+    <Route path="/" element={<Home />} />
     <Route path="/signup" element={<SignUp />} />
     <Route path="/login" element={<LogIn />} />
     </Routes>
     </>
+    </UserContext.Provider>
   )
 }
 
