@@ -1,16 +1,27 @@
 const path = require("node:path");
 const express = require('express');
-const passport = require('passport');
+const passport = require('./auth/passport');
 const { Pool } = require('pg');
-const LocalStrategy = require('passport-local').Strategy;
+
 const session = require("express-session");
 const routes = require("./routes/api")
 const app = express();
 const cors = require('cors');
 const PORT = 3000;
 
+
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // your React app's URL
+  credentials: true, // allow cookies to be sent
+}));
+
+app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
+app.use(express.urlencoded({ extended: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 app.use("/api", routes);
 
 

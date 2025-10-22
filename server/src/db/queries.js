@@ -5,6 +5,7 @@ async function getUsers() {
 }
 
 async function addUser(username, password, first_name, last_name) {
+    console.log(username, password, first_name, last_name)
     await pool.query("INSERT INTO users (username, password, first_name, last_name) VALUES ($1, $2, $3, $4)", [username, password, first_name, last_name]);
 }
 
@@ -25,11 +26,23 @@ async function addPost() {
 
 }
 
+async function getUserByUsername(username) {
+    const { rows } = await pool.query("SELECT * FROM users where username = $1", [username]);
+    return rows[0];
+}
+
+async function getUserById(id) {
+    const { rows } = await pool.query("SELECT * FROM users where id = $1", [id]);
+    return rows[0];
+}
+
 module.exports = {
     getUsers,
     addUser,
     toggleMember,
     toggleAdmin,
     getPosts,
-    addPost
+    addPost,
+    getUserById,
+    getUserByUsername
 }

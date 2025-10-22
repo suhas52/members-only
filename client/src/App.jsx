@@ -1,33 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { createContext, useEffect, useState } from 'react'
+import {UnSignedNavbar, Signed} from './components/navbar'
+import { Routes, Route } from 'react-router-dom'
+import Home from './components/home'
+import SignUp from './components/sign-up'
+import LogIn from './components/log-in'
+
+export const UserContext = createContext()
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  
+  const [user, setUser] = useState(null);
+  
+  
+  useEffect(() => {
+    fetch('http://localhost:3000/api/me', {
+      method: "GET",
+      credentials: "include"
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      
+      .catch(() => setUser(null))
+  }, [])
+  
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <UnSignedNavbar />
+    <Routes>
+    <Route path="/" element={<Home user={user}/>} />
+    <Route path="/signup" element={<SignUp />} />
+    <Route path="/login" element={<LogIn />} />
+    </Routes>
     </>
   )
 }
