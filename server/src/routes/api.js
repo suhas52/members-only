@@ -86,4 +86,13 @@ router.post("/togglemember", (req, res) => {
     }
 })
 
+router.delete("/deletepost", (req, res) => {
+    try {
+        db.deletePost(req.body.id)
+        res.status(200).json({message: "Successfully deleted post"})
+    } catch (err) {
+        res.status(400).json({message: "Unable to delete post"})
+    }
+})
+
 module.exports = router;

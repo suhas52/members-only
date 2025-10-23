@@ -14,7 +14,7 @@ async function toggleAdmin(id) {
 }
 
 async function getPosts() {
-    const {rows} = await pool.query("SELECT posts.title, posts.body, users.username FROM posts JOIN users ON posts.user_id = users.id;");
+    const {rows} = await pool.query("SELECT posts.id, posts.title, posts.body, users.username FROM posts JOIN users ON posts.user_id = users.id;");
     return rows;
 }
 
@@ -32,6 +32,10 @@ async function getUserById(id) {
     return rows[0];
 }
 
+async function deletePost(id) {
+    await pool.query("DELETE FROM posts WHERE id = $1", [id]);
+}
+
 module.exports = {
     addUser,
     toggleMember,
@@ -39,5 +43,6 @@ module.exports = {
     getPosts,
     addPost,
     getUserById,
-    getUserByUsername
+    getUserByUsername,
+    deletePost
 }
