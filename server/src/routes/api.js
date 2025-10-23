@@ -6,7 +6,7 @@ const passport = require("../auth/passport");
 
 
 router.post("/sign-up", async (req, res, next) => {
-
+    
     try {
         const { username, password, first_name, last_name} = req.body;
         const hashed_password = await bcrypt.hash(password, 10);
@@ -24,14 +24,26 @@ router.get("/test", async (req, res, next) => {
     }
 })
 
+router.post('/log-out', (req, res, next) => {
+    if (req.body) {
+        res.clearCookie('connect.sid'); 
+        req.logout(function(err) {
+            console.log(err);
+            res.send();
+        });
+    }
+    
+});
+
+
 router.post("/log-in", (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
         if (err) return next(err);
         if (!user) return res.status(401).json({ message: info.message });
-
+        
         req.logIn(user, (err) => {
             if (err) return next(err);
-            res.json({ message: "Logged in successfully", user });
+            res.json({ message: "Logged in successfully"});
         });
     })(req, res, next);
 });
@@ -40,7 +52,6 @@ router.get("/me", (req, res, next) => {
     if (req.isAuthenticated()) {
         res.json(req.user);
     } else {
-        console.log("test")
         res.status(401).json({ user: null })
     }
 })

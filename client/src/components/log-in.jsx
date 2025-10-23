@@ -23,7 +23,9 @@ function LogIn() {
             body: JSON.stringify(formData),
             credentials: 'include'
         })
-        console.log(await response.json());
+        if (response.status === 200) window.location.href = '/';
+        
+        
     }
 
     return (

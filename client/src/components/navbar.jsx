@@ -8,9 +8,12 @@ import { useContext } from 'react';
 import { UserContext } from '../App';
 import { Link } from 'react-router-dom'
 
+import DashboardMenu from './dashboard';
+
 function MainNavbar() {
     
     const { user, loading } = useContext(UserContext);
+    
     
     if (loading) {
         return <nav>Loading...</nav>;
@@ -40,7 +43,7 @@ function MainNavbar() {
         {console.log('UserContext:', { user, loading })}
         </Button>
         {isLoggedIn ? (
-            <Button color="inherit">Profile</Button>
+            <DashboardMenu />
         ) : (
             <>
             <Button href="/login" color="inherit">Login</Button>
