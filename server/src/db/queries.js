@@ -1,11 +1,7 @@
 const pool = require('./pool');
 
-async function getUsers() {
-
-}
 
 async function addUser(username, password, first_name, last_name) {
-    console.log(username, password, first_name, last_name)
     await pool.query("INSERT INTO users (username, password, first_name, last_name) VALUES ($1, $2, $3, $4)", [username, password, first_name, last_name]);
 }
 
@@ -22,8 +18,8 @@ async function getPosts() {
     return rows;
 }
 
-async function addPost() {
-
+async function addPost(id, title, body, time_posted) {
+    await pool.query("INSERT INTO posts (user_id, title, body, time_posted) VALUES ($1, $2, $3, $4)", [id, title, body, time_posted])
 }
 
 async function getUserByUsername(username) {
@@ -37,7 +33,6 @@ async function getUserById(id) {
 }
 
 module.exports = {
-    getUsers,
     addUser,
     toggleMember,
     toggleAdmin,

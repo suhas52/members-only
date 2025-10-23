@@ -1,5 +1,7 @@
 import { useContext } from "react";
 import { UserContext } from '../App';
+import Posts from "./showposts";
+
 
 
 function Home() {
@@ -9,7 +11,7 @@ function Home() {
     if (loading) return <div>Loading...</div>;
 
     return ( 
-        <p>{user.first_name}</p>
+        <Posts />
     )
 }
 

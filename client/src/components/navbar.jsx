@@ -9,6 +9,8 @@ import { UserContext } from '../App';
 import { Link } from 'react-router-dom'
 
 import DashboardMenu from './dashboard';
+import AddPost from './addpost';
+import BecomeMember from './becomemember';
 
 function MainNavbar() {
     
@@ -40,10 +42,15 @@ function MainNavbar() {
         sx={{ mr: 2 }}
         >
         Home
-        {console.log('UserContext:', { user, loading })}
         </Button>
         {isLoggedIn ? (
+            <>
+            <Button href="/member" color="inherit">
+            Become Member
+            </Button>
+            <AddPost />
             <DashboardMenu />
+            </>
         ) : (
             <>
             <Button href="/login" color="inherit">Login</Button>

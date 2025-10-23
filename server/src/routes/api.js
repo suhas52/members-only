@@ -56,4 +56,34 @@ router.get("/me", (req, res, next) => {
     }
 })
 
+router.post("/addpost", (req, res) => {
+    const { id, title, body, time_posted } = req.body;
+    try {
+        db.addPost(id, title, body, time_posted);
+        res.status(200).json({message: "Post added!"})
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+router.get("/getposts", async (req, res) => {
+    try {
+        const posts = await db.getPosts();
+        console.log(posts)
+        res.status(200).json(posts)
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+router.post("/togglemember", (req, res) => {
+    if(req.body.passcode === "secret"){
+        db.toggleMember(req.body.id);
+        res.status(200).json({message: "You're now a member"})
+    }
+    else {
+        res.status(400).json({message: "Invalid passcode."})
+    }
+})
+
 module.exports = router;
