@@ -6,7 +6,6 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { UserContext } from "../App";
-import { Alert, ButtonBase } from "@mui/material";
 
 
 function Posts() {
